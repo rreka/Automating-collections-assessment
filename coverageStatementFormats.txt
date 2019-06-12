@@ -1,0 +1,187 @@
+
+
+
+
+Available from YYYY [volume: XX issue: X].
+Available from YYYY [volume: XX] [issue: XX] until YYYY [volume: XX] [issue: XX].
+Available from YYYY [volume: XX] [issue: XX].Most recent X [XXXX](s) not available.
+
+
+[2001 - 1 year ago,
+2006 - 1 year ago,
+1980 - present,
+1980 - 1995,
+1998 - 2007,
+1930 - 1945]
+
+
+
+
+
+
+
+
+Logic:
+create a temp list of all coverage dates
+for statement in list:
+    determine what type of statement it is
+    if current to present:
+        extract start year (after word 'from')
+        append start year, and word "present" to temp list
+    if embargo:
+        extract current year (after word 'from'), extract most recent year/month (after word 'recent')
+        append start year, and most recent year/month to temp list
+    if no current:
+        extract current year (after word 'from'), extract end year (after word 'until')
+        append start year, and end year to temp list
+
+Compare all of the temp years in the list against each other and determine what the overall coverage is:
+    oldest start date, most recent end date (to present >embargo > end)
+Return a pd.Series column with the consolidated coverage dates
+
+**** But what if there is a gap between coverage ranges?? e.g., 2001-2005, 2010 - present
+
+
+
+# Example coverage statement list from link resolver
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 21 issue: 1., *** to present
+Scholars Portal Available from 1975 volume: 1 issue: 1., *** to present
+BioOne Complete Available from 2006 until 2010.] *** not current
+
+# Example of temp list:
+[1995 - present, 1975 - present, 2006 - 2010]
+
+# Example of final result:
+1975 - present
+
+# Example coverage statement list from link resolver
+[EBSCOhost Academic Search Complete Available from 2001.Most recent 1 year(s) not available.,
+Gale Cengage Academic OneFile Available from 2006.Most recent 1 year(s) not available.,
+Gale Cengage CPI.Q Available from 2006.Most recent 1 year(s) not available.,
+Canadian Science Publishing (NRC Research Press) Current Available from 1980 volume: 37 issue: 1.,
+Canadian Science Publishing (NRC Research Press) Back Issues Available from 1980 volume: 37 issue: 1 until 1995 volume: 52 issue: 12.,
+Canadian Business & Current Affairs Database: Business (CBCA) Available from 1998 until 2007.,
+Canadian Business & Current Affairs Database (CBCA) Available from 1998 until 2007.,
+Canadian Business & Current Affairs Database: Reference (CBCA) Available from 1998 until 2007.,
+SciTech Premium Collection Available from 1998 until 2007.]
+
+# Example of temp list:
+[2001 - 1 year ago,
+2006 - 1 year ago,
+2006 - 1 year ago,
+1980 - present,
+1980 - 1995,
+1998 - 2007,
+1998 - 2007,
+1998 - 2007,
+1998 - 2007]
+
+# Example of final result:
+1980 - present
+
+
+
+## Available until present
+
+CRKN Elsevier ScienceDirect Available from 1995 volume: 21 issue: 1.
+Scholars Portal Available from 1975 volume: 1 issue: 1.
+Canadian Science Publishing (NRC Research Press) Current Available from 1980 volume: 37 issue: 1.
+
+Format:
+Available from YYYY [volume: XX issue: X].
+Example: 03801330
+
+## Range with end date
+
+BioOne Complete Available from 2006 until 2010.
+Canadian Science Publishing (NRC Research Press) Back Issues Available from 1980 volume: 37 issue: 1 until 1995 volume: 52 issue: 12.
+Canadian Business & Current Affairs Database: Business (CBCA) Available from 1998 until 2007.
+Canadian Business & Current Affairs Database (CBCA) Available from 1998 until 2007.
+Canadian Business & Current Affairs Database: Reference (CBCA) Available from 1998 until 2007.
+SciTech Premium Collection Available from 1998 until 2007.
+
+Format:
+Available from YYYY [volume: XX] [issue: XX] until YYYY [volume: XX] [issue: XX].
+Example: 0022104X
+
+
+## Embargo
+
+EBSCOhost Academic Search Complete Available from 2001.Most recent 1 year(s) not available.
+Gale Cengage Academic OneFile Available from 2006.Most recent 1 year(s) not available.
+Gale Cengage CPI.Q Available from 2006.Most recent 1 year(s) not available.
+
+Format:
+Available from YYYY [volume: XX] [issue: XX].Most recent X year(s) not available.
+Example: 14778920
+
+
+## No full-text
+
+Example: 13231650
+
+
+
+
+
+Developmental Brain Research
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 84 issue: 1 until 2005 volume: 160 issue: 2.,
+Scholars Portal Available from 1981 volume: 1 issue: 1 until 2005 volume: 160 issue: 2.]
+
+
+Comparative Biochemistry and Physiology - C Pharmacology Toxicology and Endocrinology
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 110 issue: 1 until 2000 volume: 127 issue: 3.,
+Scholars Portal Available from 1995 volume: 110 issue: 1 until 2000 volume: 127 issue: 3.]
+
+
+Mutation Research - Environmental Mutagenesis and Related Subjects
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 334 issue: 1 until 1996 volume: 361 issue: 3.,
+Scholars Portal Available from 1995 volume: 334 issue: 1 until 1996 volume: 361 issue: 2.]
+
+
+Biochimica et Biophysica Acta - Protein Structure and Molecular Enzymology
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 1246 issue: 1 until 2002 volume: 1597 issue: 2.,
+Scholars Portal Available from 1995 volume: 1246 issue: 1 until 2002 volume: 1598 issue: 1.]
+
+Brain Research Reviews
+[CRKN Elsevier ScienceDirect Available from 1995 volume: 20 issue: 1 until 2011 volume: 67 issue: 2.,
+Scholars Portal Available from 1979 volume: 1 issue: 1 until 2011 volume: 67 issue: 1.]
+
+
+
+['2001 - 1 year ago',
+'2006 - 6 month ago',
+'2006 - 4 year ago',
+'1980 - present',
+'1980 - 1995',
+'1998 - 2007',
+'1998 - 2007',
+'1998 - 2007',
+'1998 - 2007']
+
+startYearList = []
+for x in tempList:
+    startYearList.append(int(x[0:3]))
+
+startYear = min(startYear)
+
+Order of preference for end date:
+'present'
+'month ago' (what if multiple)
+'year ago ' (what if multiple)
+largest number (year)
+
+
+25OFF
+
+SHOP35
+
+LIGMA
+
+13
+
+MAY2019
+
+SAVE25
+
+SAVEMORE19
