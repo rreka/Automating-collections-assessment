@@ -16,7 +16,7 @@ To use these programs you must have access to Elsevier's Scopus citation databas
 This program is designed to query library link resolvers that follow the [OpenURL protocol](https://en.wikipedia.org/wiki/OpenURL).
 
 ### Technical requirements
-This program is written in Python using Jupyter, and is dependent on the following modules that don't come pre-installed with Python:
+This program is written in Python using Jupyter Notebooks, and is dependent on the following modules that don't come pre-installed with Python:
 * [scopus](https://github.com/scopus-api/scopus) (a community-based Python wrapper for the Scopus API)
 * pandas
 
