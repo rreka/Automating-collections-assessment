@@ -18,7 +18,7 @@ This program is designed to query library link resolvers that follow the [OpenUR
 ### Technical requirements
 This program is written in Python using Jupyter Notebooks, and is dependent on the following modules that don't come pre-installed with Python:
 * [scopus](https://github.com/scopus-api/scopus) (a community-based Python wrapper for the Scopus API)
-* pandas
+* [pandas](https://pandas.pydata.org/)
 
 ### Configuring the programs to get started
 #### Scopus API
