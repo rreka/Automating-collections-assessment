@@ -7,6 +7,8 @@ This project is in development, but will contain three programs that:
 * identify which journals researchers reference in their publications, and if the library collects them
 * idenify which journals in a journal ranking list the library collects
 
+Explore the data with pandas and the Jupyter notebook. 
+
 ## Installation
 ### Requirements
 To use these programs you must have access to Elsevier's Scopus citation database and be running it from an IP address that is affiliated with an institution subscribing to Scopus. You must also have an [API key from Elsevier](https://dev.elsevier.com/).
