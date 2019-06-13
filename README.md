@@ -20,7 +20,7 @@ This program is written in Python using Jupyter, and is dependent on the followi
 
 ### Configuring the programs to get started
 #### Scopus API
-When you first use the scopus module, you will need to [configure it](https://scopus.readthedocs.io/en/latest/configuration.html) by entering in API key provided to you by Elsevier.
+When you first use the scopus module, you will need to [configure it](https://scopus.readthedocs.io/en/latest/configuration.html) by entering the API key provided to you by Elsevier.
 #### Link resolver
 The link resolver querying functionality is provided by the `searchOpenURL` function, and has been written to parse out XML statements that follow the OpenURL protocol, and more specifically, the Alma link resolver.
 
